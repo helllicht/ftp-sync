@@ -17,7 +17,7 @@ case $i in
     shift
     ;;
     -p=*|--password=*)
-    USER="${i#*=}"
+    PASSWORD="${i#*=}"
     shift
     ;;
     -l=*|--local=*)
@@ -74,7 +74,7 @@ lftp -u "$USER","$PASSWORD" $HOST <<EOF
 # set ssl:verify-certificate no
 # transfer starts now...
 set sftp:auto-confirm yes
-mirror -R $(pwd)$UPLOAD $REMOTE --delete $IGNORE;
+mirror -R $UPLOAD $REMOTE --delete $IGNORE;
 exit
 EOF
 echo
