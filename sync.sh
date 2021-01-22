@@ -65,7 +65,23 @@ while read p; do
   IGNORE="${IGNORE} -X '${p}'"
 done < "${SCRIPT_PATH}/.defaultignore"
 
-echo "Ignore: ${IGNORE}"
+echo "Default ignore: ${IGNORE}"
+
+if [ -f ".syncignore" ]; then
+    echo ".syncignore exists."
+
+    while read p; do
+      IGNORE="${IGNORE} -X '${p}'"
+    done < ".syncignore"
+
+    echo "Added additional .syncignore files!"
+    echo "ignore: ${IGNORE}"
+else
+    echo "No .syncignore found."
+fi
+
+echo
+echo " --- Start sync process ---"
 
 lftp -u "$USER","$PASSWORD" $HOST <<EOF
 # the next 3 lines put you in ftp mode. Uncomment if you are having trouble connecting.
@@ -78,6 +94,6 @@ mirror -R $UPLOAD $REMOTE --delete $IGNORE;
 exit
 EOF
 echo
-echo "done"
+echo " --- Finished sync process ---"
 
 exit 0
