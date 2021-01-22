@@ -5,10 +5,10 @@ inputs:
     host:
         description: 'Host (e.g. "my-sftp-url.com")'
         required: true
-    port:
-        description: 'Port [default: "22"]'
-        required: false
-        default: '22'
+    #port:
+    #    description: 'Port [default: "22"]'
+    #    required: false
+    #    default: '22'
     username:
         description: 'Username'
         required: true
@@ -16,20 +16,11 @@ inputs:
         description: 'Password'
         required: true
     localDir:
-        description: 'Directory that should be uploaded (e.g. ".", "dist", "./app", "./compiled/")'
+        description: 'Directory that should be uploaded'
         required: true
     uploadPath:
-        description: 'Path where the working directories are [default: "./"] (e.g. "app", "./www/", "www/prod", "html/var/"'
-        required: false
-        default: './'
-    exclude:
-        description: 'Files/Folders that should not be uploaded [default: see action.yml] (it is using regex) (pass "[]" for no filtering)'
-        required: false
-        default: '[".github", ".git", ".gitignore", "composer.phar", "node_modules", "README.md", "package.json", "package-lock.json", "yarn.lock"]'
-    debugMode:
-        description: 'Enable debug ("on"/"off") to receive a detailed log of the upload [default: "off"]'
-        required: false
-        default: 'off'
+        description: 'Path where the sync directory is'
+        required: true
 
 runs:
     using: "composite"
@@ -38,5 +29,10 @@ runs:
             shell: bash
         -   run: |
                 chmod +x ${{ github.action_path }}/sync.sh
-                bash ${{ github.action_path }}/sync.sh
+                bash ${{ github.action_path }}/sync.sh \
+                    -h=${{ inputs.host }} \
+                    -u=${{ inputs.username }} \
+                    -p=${{ inputs.password }} \
+                    -l=${{ inputs.localDir }} \
+                    -r=${{ inputs.uploadPath }}
             shell: bash

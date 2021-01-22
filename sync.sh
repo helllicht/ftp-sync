@@ -1,6 +1,35 @@
 #!/bin/bash
 # @author: helllicht medien GmbH
 
+for i in "$@"
+do
+case $i in
+    -h=*|--host=*)
+    HOST="${i#*=}"
+    shift
+    ;;
+    -u=*|--user=*)
+    USER="${i#*=}"
+    shift
+    ;;
+    -p=*|--password=*)
+    USER="${i#*=}"
+    shift
+    ;;
+    -l=*|--local=*)
+    UPLOAD="${i#*=}"
+    shift
+    ;;
+    -r=*|--remote=*)
+    REMOTE="${i#*=}"
+    shift
+    ;;
+    *)
+          # unknown option
+    ;;
+esac
+done
+
 # exit when any command fails
 set -e
 
@@ -22,12 +51,6 @@ then
         fail "lftp could not be installed!"
     fi
 fi
-
-HOST="${inputs.host}"
-USER="${inputs.username}"
-PASSWORD="${inputs.password}"
-UPLOAD="${inputs.localDir}"
-REMOTE="${inputs.uploadPath}"
 
 IGNORE=''
 while read p; do
