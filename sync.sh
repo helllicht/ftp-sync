@@ -4,6 +4,10 @@
 for i in "$@"
 do
 case $i in
+    -s=*|--script=*)
+    SCRIPT_PATH="${i#*=}"
+    shift
+    ;;
     -h=*|--host=*)
     HOST="${i#*=}"
     shift
@@ -59,7 +63,7 @@ while read p; do
 
   # use of -X not -x see https://github.com/lavv17/lftp/issues/604#issuecomment-701397054
   IGNORE="${IGNORE} -X '${p}'"
-done < "${{ github.action_path }}/.defaultignore"
+done < "${SCRIPT_PATH}/.defaultignore"
 
 echo "Ignore: ${IGNORE}"
 
