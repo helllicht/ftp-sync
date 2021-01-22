@@ -1,2 +1,7 @@
-.env
-cred2.txt
+.gitignore
+.git
+.idea
+.vscode
+.DS_Store
+node_modules
+README.md
