@@ -1,8 +1,10 @@
 # helllicht/ftp-sync
 
 ## IMPORTANT INFO:
-> Wenn man im nachhinein Dateien/Ordner zum ignore hinzufügt werden diese ignoriert, diese werden *NICHT* auf dem Server gelöscht,
-> dass mus man selbst machen! Nur Dateien die nicht ignoriert werden werden auch abgeglichen und gelöscht wenn diese nun nicht mehr vorhanden sind!
+If you add files/folders to the .syncignore later, they will be ignored and NOT automatically deleted from the server.
+The script skips them immediately, without any comparison.
+You have to delete them yourself (if wished)!
+Only files and folders that are not ignored will be synchronised and deleted if they are no longer present!
 
 > https://docs.github.com/en/free-pro-team@latest/actions/creating-actions/creating-a-composite-run-steps-action
 
@@ -13,14 +15,52 @@ The Sync action already filters out some files itself: [.defaultignore](https://
 You can create a .syncignore in your repository (in the root!) and have files and folders filtered there in glob style.
 If the action has found a .syncignore, you can also see this in the text output.
 
-e.g.
+e.g. of an valid .syncignore:
 ```
-# /.syncignore
+# .syncignore
 
 .dockerignore
-my_folder
+my_folder/
+other_folder/dont_upload.json
 # a comment :)
 main.js
+```
+### Files
+If you ignore `test.js` they will be excluded no matter where they are, recursive in all directories!
+```
+# .syncignore
+test.js
+```
+```
+.
+├── exampleDir/
+│   ├── test.js <-- not uploaded
+│   └── example.json
+├── importantStuff/
+│   ├── test.js <-- not uploaded
+│   └── whoa.png
+└── test.js <-- not uploaded
+```
+If you want that only the exampleDir/test.js is ignored so use this syntax:
+```
+# .syncignore
+exampleDir/test.js
+```
+
+### Folder
+When you want to ignore folders they have to end with /
+```
+willBeUploadedDir <-- does not work
+
+myDir/ <-- valid
+```
+
+### Comments
+You can only write a comment or a file/folder, not both in one line!
+```
+# this is a valid comment
+
+main.js # this not!
 ```
 
 ## Active versions
