@@ -6,8 +6,6 @@ The script skips them immediately, without any comparison.
 You have to delete them yourself (if wished)!
 Only files and folders that are not ignored will be synchronised and deleted if they are no longer present!
 
-> https://docs.github.com/en/free-pro-team@latest/actions/creating-actions/creating-a-composite-run-steps-action
-
 This Action is using [lftp](http://lftp.yar.ru/lftp-man.html). 
 
 ## Upload filter
@@ -41,14 +39,14 @@ test.js
 │   └── whoa.png
 └── test.js <-- not uploaded
 ```
-If you want that only the exampleDir/test.js is ignored so use this syntax:
+If you want that only the `exampleDir/test.js` is ignored so use this syntax:
 ```
 # .syncignore
 exampleDir/test.js
 ```
 
 ### Folder
-When you want to ignore folders they have to end with /
+If you want to ignore folders, they must end with "/".
 ```
 willBeUploadedDir <-- does not work
 
@@ -79,7 +77,7 @@ Example:
 > In this example just the 'staging'-Branch is deployed!
 > read more about 'on:'
 > here: https://docs.github.com/en/free-pro-team@latest/actions/reference/workflow-syntax-for-github-actions#on
-```
+```yaml
 name: Deploy
 
 on:
@@ -94,9 +92,15 @@ jobs:
         steps:
             - name: Checkout Repository
               uses: actions/checkout@v2
-            - ...build your project
+            # ...build your project
             - name: Sync to server
               uses: helllicht/ftp-sync@master
+              with:
+                  host: 'ftp.example-upload.com'
+                  username: 'the_ftp_username'
+                  password: ${{ secrets.SFTP_PASS }}
+                  localDir: 'dist'
+                  uploadPath: 'app'
             - ...
 ```
 
