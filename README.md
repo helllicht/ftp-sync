@@ -1,9 +1,15 @@
-# helllicht/security-check
+# helllicht/ftp-sync
 
 ## IMPORTANT INFO:
-> Wenn man im nachhinein Dateien/Ordner zum ignore hinzufügt werden diese ignoriert, diese werden *NICHT* auf dem Server gelöscht, dass mus man selbst machen! Nur Dateien die nicht ignoriert werden werden auch abgeglichen und gelöscht wenn diese nun nicht mehr vorhanden sind!
+> Wenn man im nachhinein Dateien/Ordner zum ignore hinzufügt werden diese ignoriert, diese werden *NICHT* auf dem Server gelöscht,
+> dass mus man selbst machen! Nur Dateien die nicht ignoriert werden werden auch abgeglichen und gelöscht wenn diese nun nicht mehr vorhanden sind!
 
 > https://docs.github.com/en/free-pro-team@latest/actions/creating-actions/creating-a-composite-run-steps-action
+
+### Upload filter
+Die Sync action filtert manche files schon selbst raus [.defaultignore](https://github.com/helllicht/ftp-sync/blob/master/.defaultignore)
+Man kann in sein Repository (im Root!) eine .syncignore anlegen und dort im glob style Dateien und Ordner filtern lassen."
+Wenn die Action eine .syncignore gefunden hat, sieht man dies auch an der Textausgabe.
 
 ## Active versions
 INFO: This action just have one active version -> master!
@@ -15,7 +21,7 @@ If not already done, add following folder structure to the project (name of the 
 .
 └── .github/
     └── workflows/
-        └── check.yml
+        └── deploy.yml
 ```
 Example:
 > In this example just the 'staging'-Branch is deployed!
