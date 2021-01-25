@@ -6,10 +6,22 @@
 
 > https://docs.github.com/en/free-pro-team@latest/actions/creating-actions/creating-a-composite-run-steps-action
 
-### Upload filter
-Die Sync action filtert manche files schon selbst raus [.defaultignore](https://github.com/helllicht/ftp-sync/blob/master/.defaultignore)
-Man kann in sein Repository (im Root!) eine .syncignore anlegen und dort im glob style Dateien und Ordner filtern lassen."
-Wenn die Action eine .syncignore gefunden hat, sieht man dies auch an der Textausgabe.
+This Action is using [lftp](http://lftp.yar.ru/lftp-man.html). 
+
+## Upload filter
+The Sync action already filters out some files itself: [.defaultignore](https://github.com/helllicht/ftp-sync/blob/master/.defaultignore)
+You can create a .syncignore in your repository (in the root!) and have files and folders filtered there in glob style.
+If the action has found a .syncignore, you can also see this in the text output.
+
+e.g.
+```
+# /.syncignore
+
+.dockerignore
+my_folder
+# a comment :)
+main.js
+```
 
 ## Active versions
 INFO: This action just have one active version -> master!
@@ -28,7 +40,7 @@ Example:
 > read more about 'on:'
 > here: https://docs.github.com/en/free-pro-team@latest/actions/reference/workflow-syntax-for-github-actions#on
 ```
-name: Check
+name: Deploy
 
 on:
     push:
@@ -37,7 +49,7 @@ on:
 
 jobs:
     build:
-        name: Check vulnerabilities
+        name: Build and deploy
         runs-on: ubuntu-18.04
         steps:
             - name: Checkout Repository

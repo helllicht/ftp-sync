@@ -62,7 +62,10 @@ while read p; do
   # IGNORE="${IGNORE} -x '${p//./\\.}'"
 
   # use of -X not -x see https://github.com/lavv17/lftp/issues/604#issuecomment-701397054
-  IGNORE="${IGNORE} -X '${p}'"
+  if [[ ${p:0:1} != "#" ]] ;
+  then
+    IGNORE="${IGNORE} -X '${p}'"
+  fi
 done < "${SCRIPT_PATH}/.defaultignore"
 
 echo "Default ignore: ${IGNORE}"
@@ -71,7 +74,10 @@ if [ -f ".syncignore" ]; then
     echo ".syncignore exists."
 
     while read p; do
-      IGNORE="${IGNORE} -X '${p}'"
+      if [[ ${p:0:1} != "#" ]] ;
+      then
+        IGNORE="${IGNORE} -X '${p}'"
+      fi
     done < ".syncignore"
 
     echo "Added additional .syncignore files!"
