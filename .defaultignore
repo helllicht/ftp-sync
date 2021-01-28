@@ -3,6 +3,7 @@
 .git/
 .github/
 .idea/
+.syncignore
 .vscode/
 node_modules/
 README.md
