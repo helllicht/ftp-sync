@@ -83,21 +83,26 @@ else
     echo "No .syncignore found."
 fi
 
-echo "Compare composer.lock with remote"
-if bash "$SCRIPT_PATH"/cLockCheck.sh -h="$HOST" -u="$USER" -p="$PASSWORD"; then
-    # remote.composer.lock is downloaded
-    echo "Found a composer.lock on remote. Compare with current composer.lock!"
-    REMOTE_HASH=$(cat remote.composer.lock | grep content-hash | cut -d ':' -f2)
-    LOCAL_HASH=$(cat composer.lock | grep content-hash | cut -d ':' -f2)
+if test -f "composer.lock"; then
+    # This project contains a composer.lock file
+    echo "This is a php project with composer.lock!"
+    echo "Trying to compare local composer.lock with remote"
 
-    if [ "$REMOTE_HASH" = "$LOCAL_HASH" ]; then
-      echo "composer.lock hashes are same on local and remote! Automatically add vendor/ (and kirby/) to ignore."
-      IGNORE="${IGNORE} -X 'vendor/'"
-      IGNORE="${IGNORE} -X 'kirby/'"
+    if bash "$SCRIPT_PATH"/cLockCheck.sh -h="$HOST" -u="$USER" -p="$PASSWORD"; then
+        # remote.composer.lock is downloaded
+        echo "Found a composer.lock on remote. Compare with local composer.lock!"
+        REMOTE_HASH=$(cat remote.composer.lock | grep content-hash | cut -d ':' -f2)
+        LOCAL_HASH=$(cat composer.lock | grep content-hash | cut -d ':' -f2)
+
+        if [ "$REMOTE_HASH" = "$LOCAL_HASH" ]; then
+          echo "composer.lock hashes are same! Automatically add vendor/ (and kirby/) to ignore."
+          IGNORE="${IGNORE} -X 'vendor/'"
+          IGNORE="${IGNORE} -X 'kirby/'"
+        fi
+    else
+        # no remote.composer.lock
+        echo "No composer.lock could be found on remote host. Will upload vendor/ (and kirby/)."
     fi
-else
-    # no remote.composer.lock
-    echo "No composer.lock could be found on remote host. Will upload vendor/ (and kirby/)."
 fi
 
 echo "Final ignore list: ${IGNORE}"
