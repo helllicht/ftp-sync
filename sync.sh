@@ -68,8 +68,6 @@ while read p; do
   fi
 done < "${SCRIPT_PATH}/.defaultignore"
 
-echo "Default ignore: ${IGNORE}"
-
 if [ -f ".syncignore" ]; then
     echo ".syncignore exists."
 
@@ -80,8 +78,7 @@ if [ -f ".syncignore" ]; then
       fi
     done < ".syncignore"
 
-    echo "Added additional .syncignore files!"
-    echo "ignore: ${IGNORE}"
+    echo "Added additional ignores from .syncignore!"
 else
     echo "No .syncignore found."
 fi
@@ -102,6 +99,8 @@ else
     # no remote.composer.lock
     echo "No composer.lock could be found on remote host. Will upload vendor/ (and kirby/)."
 fi
+
+echo "Final ignore list: ${IGNORE}"
 
 echo
 echo " --- Start sync process ---"
