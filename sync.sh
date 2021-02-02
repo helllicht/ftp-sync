@@ -87,7 +87,7 @@ else
 fi
 
 echo "Compare composer.lock with remote"
-if bash cLockCheck.sh; then
+if bash "$SCRIPT_PATH"/cLockCheck.sh -h="$HOST" -u="$USER" -p="$PASSWORD"; then
     # remote.composer.lock is downloaded
     echo "Found a composer.lock on remote. Compare with current composer.lock!"
     REMOTE_HASH=$(cat remote.composer.lock | grep content-hash | cut -d ':' -f2)
