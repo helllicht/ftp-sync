@@ -36,7 +36,8 @@ else
   FORCE_SSL="set ftp:ssl-force false"
 fi
 
-echo "start cLockCheck"
+echo
+echo "try to download composer.lock on remote"
 
 lftp -u "$USER","$PASSWORD" $HOST <<EOF
 set ssl:check-hostname no
