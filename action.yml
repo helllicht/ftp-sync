@@ -9,6 +9,10 @@ inputs:
     #    description: 'Port [default: "22"]'
     #    required: false
     #    default: '22'
+    #forceVendor:
+    #    description: 'Always upload vendor (default: "false") ["false", all other strings are true!]'
+    #    required: false
+    #    default: 'false'
     username:
         description: 'Username'
         required: true
@@ -21,6 +25,10 @@ inputs:
     uploadPath:
         description: 'Path where the sync directory is'
         required: true
+    forceSSL:
+        description: 'Just use SSL connection (default: "true") ["true", all other strings are false!]'
+        required: false
+        default: 'true'
 
 runs:
     using: "composite"
@@ -35,5 +43,6 @@ runs:
                     -u=${{ inputs.username }} \
                     -p=${{ inputs.password }} \
                     -l=${{ inputs.localDir }} \
-                    -r=${{ inputs.uploadPath }}
+                    -r=${{ inputs.uploadPath }} \
+                    -S=${{ inputs.forceSSL }} \
             shell: bash

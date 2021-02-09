@@ -28,6 +28,10 @@ case $i in
     REMOTE="${i#*=}"
     shift
     ;;
+    -S=*|--ssl=*)
+    SSL="${i#*=}"
+    shift
+    ;;
     *)
           # unknown option
     ;;
@@ -58,10 +62,7 @@ fi
 
 IGNORE=''
 while read p; do
-  # optional escaping (not needed?)
-  # IGNORE="${IGNORE} -x '${p//./\\.}'"
-
-  # use of -X not -x see https://github.com/lavv17/lftp/issues/604#issuecomment-701397054
+  # append all entries from .defaultignore
   if [[ ${p:0:1} != "#" ]] ;
   then
     IGNORE="${IGNORE} -X '${p}'"
@@ -69,6 +70,7 @@ while read p; do
 done < "${SCRIPT_PATH}/.defaultignore"
 
 if [ -f ".syncignore" ]; then
+    # if exists, append all entries from .syncignore
     echo ".syncignore exists."
 
     while read p; do
@@ -88,9 +90,10 @@ if test -f "composer.lock"; then
     echo "This is a php project with composer.lock!"
     echo "Trying to compare local composer.lock with remote"
 
-    if bash "$SCRIPT_PATH"/cLockCheck.sh -h="$HOST" -u="$USER" -p="$PASSWORD"; then
+    if bash "$SCRIPT_PATH"/composerLockCheck.sh -h="$HOST" -u="$USER" -p="$PASSWORD" -S; then
         # remote.composer.lock is downloaded
         echo "Found a composer.lock on remote. Compare with local composer.lock!"
+        # slice the "content-hash" from remote and local to check if they are identically
         REMOTE_HASH=$(cat remote.composer.lock | grep content-hash | cut -d ':' -f2)
         LOCAL_HASH=$(cat composer.lock | grep content-hash | cut -d ':' -f2)
 
@@ -107,18 +110,31 @@ fi
 
 echo "Final ignore list: ${IGNORE}"
 
+# additional settings
+FORCE_SSL=""
+if [ "$SSL" = "true" ]; then
+  echo "ssl-force enabled!"
+  FORCE_SSL="set ftp:ssl-force true"
+else
+  echo "ssl-force disabled!"
+  FORCE_SSL="set ftp:ssl-force false"
+fi
+
 echo
 echo " --- Start sync process ---"
 
+# lftp manual: http://lftp.yar.ru/lftp-man.html
+# if we got ssl issues probably set 'set ssl:verify-certificate no'
+
 lftp -u "$USER","$PASSWORD" $HOST <<EOF
-set ftp:ssl-force true
-# set ssl:verify-certificate no
 set ssl:check-hostname no
 set sftp:auto-confirm yes
-mirror -v -R $UPLOAD $REMOTE --delete $IGNORE;
+$FORCE_SSL
+mirror --reverse --only-newer --delete --verbose $UPLOAD $REMOTE $IGNORE;
 exit
 EOF
-echo
+
 echo " --- Finished sync process ---"
+echo
 
 exit 0

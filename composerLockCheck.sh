@@ -18,16 +18,30 @@ case $i in
     PASSWORD="${i#*=}"
     shift
     ;;
+    -S=*|--ssl=*)
+    SSL="${i#*=}"
+    shift
+    ;;
     *)
           # unknown option
     ;;
 esac
 done
 
+# additional settings
+FORCE_SSL=""
+if [ "$SSL" = "true" ]; then
+  FORCE_SSL="set ftp:ssl-force true"
+else
+  FORCE_SSL="set ftp:ssl-force false"
+fi
+
 echo "start cLockCheck"
 
 lftp -u "$USER","$PASSWORD" $HOST <<EOF
+set ssl:check-hostname no
 set sftp:auto-confirm yes
+$FORCE_SSL
 get -c composer.lock -o remote.composer.lock
 exit
 EOF
