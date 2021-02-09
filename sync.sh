@@ -115,7 +115,7 @@ set ftp:ssl-force true
 # set ssl:verify-certificate no
 set ssl:check-hostname no
 set sftp:auto-confirm yes
-mirror -R $UPLOAD $REMOTE --delete $IGNORE;
+mirror -v -R $UPLOAD $REMOTE --delete $IGNORE;
 exit
 EOF
 echo
