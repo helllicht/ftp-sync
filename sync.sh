@@ -111,11 +111,9 @@ echo
 echo " --- Start sync process ---"
 
 lftp -u "$USER","$PASSWORD" $HOST <<EOF
-# the next 3 lines put you in ftp mode. Uncomment if you are having trouble connecting.
-# set ftp:ssl-force true
-# set ftp:ssl-protect-data true
+set ftp:ssl-force true
 # set ssl:verify-certificate no
-# transfer starts now...
+set ssl:check-hostname no
 set sftp:auto-confirm yes
 mirror -R $UPLOAD $REMOTE --delete $IGNORE;
 exit
