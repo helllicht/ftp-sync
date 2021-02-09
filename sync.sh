@@ -130,7 +130,7 @@ lftp -u "$USER","$PASSWORD" $HOST <<EOF
 set ssl:check-hostname no
 set sftp:auto-confirm yes
 $FORCE_SSL
-mirror --reverse --delete --verbose $UPLOAD $REMOTE $IGNORE;
+mirror --reverse --only-newer --delete $UPLOAD $REMOTE $IGNORE;
 exit
 EOF
 
