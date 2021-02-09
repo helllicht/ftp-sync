@@ -1,11 +1,13 @@
 .DS_Store
-.gitignore
 .git/
 .github/
+.gitignore
 .idea/
 .syncignore
 .vscode/
-node_modules/
-README.md
-remote.composer.lock
 .well-known/
+README.md
+node_modules/
+package-lock.json
+package.json
+remote.composer.lock
