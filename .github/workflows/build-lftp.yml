@@ -1,0 +1,28 @@
+name: Build
+
+# trigger
+on:
+    release:
+        types: [published]
+    push:
+        branches:
+            - debug
+
+jobs:
+    build:
+        name: Build
+        runs-on: ubuntu-20.04
+        steps:
+            - name: Checkout Repository
+              uses: actions/checkout@v2
+            - run: |
+                  sudo apt-get update
+                  sudo apt-get install -y readline-devel zlib-devel openssl-devel expat-devel
+                  wget http://lftp.yar.ru/ftp/lftp-4.9.2.tar.bz2
+                  tar xvjf lftp-4.9.2.tar.bz2
+                  cd lftp-4.9.2
+                  ./configure
+            - uses: actions/download-artifact@v2
+              with:
+                  name: my-artifact
+                  path: lftp-4.9.2
