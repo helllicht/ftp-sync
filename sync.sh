@@ -130,6 +130,9 @@ echo " --- Start sync process ---"
 # debug   <- output everything
 # debug 3 <- output just errors
 
+echo "LFTP Info:"
+lftp -v | grep "ersion"
+
 lftp -u "$USER","$PASSWORD" $HOST <<EOF
 debug 3
 set ssl:check-hostname true
@@ -139,7 +142,7 @@ set net:timeout 15;
 set net:reconnect-interval-base 5;
 set net:max-retries 2;
 $FORCE_SSL
-mirror --verbose --reverse --only-newer --delete $UPLOAD $REMOTE $IGNORE;
+mirror --continue --verbose --reverse --only-newer --delete $UPLOAD $REMOTE $IGNORE;
 exit
 EOF
 
