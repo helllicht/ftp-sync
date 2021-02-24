@@ -12,6 +12,7 @@
 .gitmodules
 .idea/
 .jshintrc
+.prettierignore
 .syncignore
 .vscode/
 .well-known/

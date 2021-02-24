@@ -74,7 +74,7 @@ if [ -f ".syncignore" ]; then
     echo ".syncignore exists."
 
     while read p; do
-      if [[ ${p:0:1} != "#" ]] ;
+      if [ ${#p} -gt 0 ] && [ ${p:0:1} != "#" ] ;
       then
         IGNORE="${IGNORE} -X '${p}'"
       fi
