@@ -126,8 +126,12 @@ echo " --- Start sync process ---"
 # lftp manual: http://lftp.yar.ru/lftp-man.html
 # if we got ssl issues probably set 'set ssl:verify-certificate no'
 
+# INFO for debug,
+# debug   <- output everything
+# debug 3 <- output just errors
+
 lftp -u "$USER","$PASSWORD" $HOST <<EOF
-debug 3
+debug
 set ssl:check-hostname yes
 set sftp:auto-confirm yes
 $FORCE_SSL
