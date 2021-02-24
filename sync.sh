@@ -131,9 +131,10 @@ echo " --- Start sync process ---"
 # debug 3 <- output just errors
 
 lftp -u "$USER","$PASSWORD" $HOST <<EOF
-debug
+debug 3
 set ssl:check-hostname yes
 set sftp:auto-confirm yes
+ftp:passive-mode false
 $FORCE_SSL
 mirror --verbose --reverse --only-newer --delete $UPLOAD $REMOTE $IGNORE;
 exit
