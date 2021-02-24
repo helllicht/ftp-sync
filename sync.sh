@@ -52,6 +52,7 @@ if ! command -v lftp &> /dev/null
 then
     # try to install
     echo "lftp not installed, try to install!"
+    sudo apt-get update
     sudo apt-get install -y lftp
 
     if ! command -v lftp &> /dev/null
