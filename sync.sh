@@ -129,7 +129,11 @@ echo " --- Start sync process ---"
 lftp -u "$USER","$PASSWORD" $HOST <<EOF
 debug
 set ssl:check-hostname no
+set ssl:verify-certificate no
 set sftp:auto-confirm yes
+set net:timeout 15;
+set net:reconnect-interval-base 3;
+set net:max-retries 2;
 $FORCE_SSL
 mirror --verbose --reverse --only-newer --delete $UPLOAD $REMOTE $IGNORE;
 exit
