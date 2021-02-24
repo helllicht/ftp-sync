@@ -61,6 +61,11 @@ then
     fi
 fi
 
+echo
+echo "LFTP Info:"
+lftp -v
+echo
+
 IGNORE=''
 while read p; do
   # append all entries from .defaultignore
@@ -130,9 +135,6 @@ echo " --- Start sync process ---"
 # INFO for debug,
 # debug   <- output everything
 # debug 3 <- output just errors
-
-echo "LFTP Info:"
-lftp -v | grep "ersion"
 
 lftp -u "$USER","$PASSWORD" $HOST <<EOF
 debug 3
