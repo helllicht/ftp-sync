@@ -127,8 +127,8 @@ echo " --- Start sync process ---"
 # if we got ssl issues probably set 'set ssl:verify-certificate no'
 
 lftp -u "$USER","$PASSWORD" $HOST <<EOF
-debug 2
-set ssl:check-hostname no
+debug
+set ssl:check-hostname yes
 set sftp:auto-confirm yes
 $FORCE_SSL
 mirror --verbose --reverse --only-newer --delete $UPLOAD $REMOTE $IGNORE;
