@@ -134,6 +134,9 @@ lftp -u "$USER","$PASSWORD" $HOST <<EOF
 debug 3
 set ssl:check-hostname yes
 set sftp:auto-confirm yes
+set net:timeout 15;
+set net:reconnect-interval-base 5;
+set net:max-retries 2;
 $FORCE_SSL
 mirror --verbose --reverse --only-newer --delete $UPLOAD $REMOTE $IGNORE;
 exit
