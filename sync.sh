@@ -61,6 +61,8 @@ echo "starting sync.sh script"
 #    fi
 #fi
 
+chmod +x ${SCRIPT_PATH}/lib/bin/lftp
+
 echo
 echo "LFTP Info:"
 ${SCRIPT_PATH}/lib/bin/lftp -v
