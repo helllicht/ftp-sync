@@ -53,7 +53,8 @@ function fail {
 echo "starting sync.sh script"
 
 sudo apt-get update
-sudo apt-get install -y libc6 libgnutls30 libidn2-0 libreadline8 libstdc++6 libtinfo6 zlib1g netbase openssh-client
+sudo apt-get install -y libc6 libgnutls30 libidn2-0 libstdc++6 zlib1g netbase openssh-client
+# libreadline8 libtinfo6
 
 #if ! command -v lftp &> /dev/null
 #then
@@ -147,14 +148,12 @@ echo " --- Start sync process ---"
 
 ${SCRIPT_PATH}/lib/lftp-${LFTP_VERSION}/src/lftp -u "$USER","$PASSWORD" $HOST <<EOF
 debug 3
-set ssl:check-hostname true
-set sftp:auto-confirm true
-set ftp:use-utf8 true;
+set sftp:auto-confirm yes
 set net:timeout 15;
 set net:reconnect-interval-base 5;
 set net:max-retries 2;
 $FORCE_SSL
-mirror --verbose --reverse --only-newer --delete $UPLOAD $REMOTE $IGNORE;
+mirror --use-pget-n=8 --verbose --reverse --only-newer --delete $UPLOAD $REMOTE $IGNORE;
 exit
 EOF
 
