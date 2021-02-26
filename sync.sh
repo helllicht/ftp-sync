@@ -32,6 +32,10 @@ case $i in
     SSL="${i#*=}"
     shift
     ;;
+    -lftp=*|--lftp-version=*)
+    LFTP_VERSION="${i#*=}"
+    shift
+    ;;
     *)
           # unknown option
     ;;
@@ -61,11 +65,11 @@ echo "starting sync.sh script"
 #    fi
 #fi
 
-chmod +x ${SCRIPT_PATH}/lib/bin/lftp
+chmod +x ${SCRIPT_PATH}/lib/lftp-${LFTP_VERSION}/src/lftp
 
 echo
 echo "LFTP Info:"
-${SCRIPT_PATH}/lib/bin/lftp -v
+${SCRIPT_PATH}/lib/lftp-${LFTP_VERSION}/src/lftp -v
 echo
 
 IGNORE=''
@@ -138,7 +142,7 @@ echo " --- Start sync process ---"
 # debug   <- output everything
 # debug 3 <- output just errors
 
-${SCRIPT_PATH}/lib/bin/lftp -u "$USER","$PASSWORD" $HOST <<EOF
+${SCRIPT_PATH}/lib/lftp-${LFTP_VERSION}/src/lftp -u "$USER","$PASSWORD" $HOST <<EOF
 debug 3
 set ssl:check-hostname true
 set sftp:auto-confirm true

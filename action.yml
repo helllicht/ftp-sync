@@ -29,6 +29,10 @@ inputs:
         description: 'Just use SSL connection (default: "true") ["true", all other strings are false!]'
         required: false
         default: 'true'
+    lftp:
+        description: 'Select lftp version (default: "4.9.2")'
+        required: false
+        default: '4.9.2'
 
 runs:
     using: "composite"
@@ -45,4 +49,5 @@ runs:
                     -l=${{ inputs.localDir }} \
                     -r=${{ inputs.uploadPath }} \
                     -S=${{ inputs.forceSSL }} \
+                    -lftp=${{ inputs.lftp }} \
             shell: bash
