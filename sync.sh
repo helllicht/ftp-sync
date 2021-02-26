@@ -130,10 +130,10 @@ echo "Final ignore list: ${IGNORE}"
 FORCE_SSL=""
 if [ "$SSL" = "true" ]; then
   echo "ssl-force enabled!"
-  FORCE_SSL="set ftp:ssl-force true"
+  FORCE_SSL="set ftp:ssl-force true;"
 else
   echo "ssl-force disabled!"
-  FORCE_SSL="set ftp:ssl-force false"
+  FORCE_SSL="set ftp:ssl-force false;"
 fi
 
 echo
@@ -148,7 +148,8 @@ echo " --- Start sync process ---"
 
 ${SCRIPT_PATH}/lib/lftp-${LFTP_VERSION}/src/lftp -u "$USER","$PASSWORD" $HOST <<EOF
 debug 3
-set sftp:auto-confirm yes
+set sftp:auto-confirm yes;
+set ssl:verify-certificate no;
 set net:timeout 15;
 set net:reconnect-interval-base 5;
 set net:max-retries 2;
