@@ -24,19 +24,19 @@ jobs:
               run: cd lftp-4.9.2 && ls -la
 
             - name: configure
-              run: ./configure --without-gnutls --with-openssl
+              run: cd lftp-4.9.2 && ./configure --without-gnutls --with-openssl
 
             - name: make
-              run: make -j$(nproc)
+              run: cd lftp-4.9.2 && make -j$(nproc)
 
             - name: make
-              run: make install
+              run: cd lftp-4.9.2 && make install
 
             - name: output build dir
-              run: ls -la src | grep "lftp"
+              run: cd lftp-4.9.2 && ls -la src | grep "lftp"
 
             - name: output
-              run: lftp -v
+              run: cd lftp-4.9.2 && lftp -v
 
             - uses: actions/download-artifact@v2
               with:
