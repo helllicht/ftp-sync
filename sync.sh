@@ -63,7 +63,7 @@ echo "starting sync.sh script"
 
 echo
 echo "LFTP Info:"
-"$(pwd)"/bin/lftp -v
+"$(SCRIPT_PATH)"/bin/lftp -v
 echo
 
 IGNORE=''
@@ -91,28 +91,28 @@ else
     echo "No .syncignore found."
 fi
 
-if test -f "composer.lock"; then
-    # This project contains a composer.lock file
-    echo "This is a php project with composer.lock!"
-    echo "Trying to compare local composer.lock with remote"
-
-    if bash "$SCRIPT_PATH"/composerLockCheck.sh -h="$HOST" -u="$USER" -p="$PASSWORD" -S; then
-        # remote.composer.lock is downloaded
-        echo "Found a composer.lock on remote. Compare with local composer.lock!"
-        # slice the "content-hash" from remote and local to check if they are identically
-        REMOTE_HASH=$(cat remote.composer.lock | grep content-hash | cut -d ':' -f2)
-        LOCAL_HASH=$(cat composer.lock | grep content-hash | cut -d ':' -f2)
-
-        if [ "$REMOTE_HASH" = "$LOCAL_HASH" ]; then
-          echo "composer.lock hashes are same! Automatically add vendor/ (and kirby/) to ignore."
-          IGNORE="${IGNORE} -X 'vendor/'"
-          IGNORE="${IGNORE} -X 'kirby/'"
-        fi
-    else
-        # no remote.composer.lock
-        echo "No composer.lock could be found on remote host. Will upload vendor/ (and kirby/)."
-    fi
-fi
+#if test -f "composer.lock"; then
+#    # This project contains a composer.lock file
+#    echo "This is a php project with composer.lock!"
+#    echo "Trying to compare local composer.lock with remote"
+#
+#    if bash "$SCRIPT_PATH"/composerLockCheck.sh -h="$HOST" -u="$USER" -p="$PASSWORD" -S; then
+#        # remote.composer.lock is downloaded
+#        echo "Found a composer.lock on remote. Compare with local composer.lock!"
+#        # slice the "content-hash" from remote and local to check if they are identically
+#        REMOTE_HASH=$(cat remote.composer.lock | grep content-hash | cut -d ':' -f2)
+#        LOCAL_HASH=$(cat composer.lock | grep content-hash | cut -d ':' -f2)
+#
+#        if [ "$REMOTE_HASH" = "$LOCAL_HASH" ]; then
+#          echo "composer.lock hashes are same! Automatically add vendor/ (and kirby/) to ignore."
+#          IGNORE="${IGNORE} -X 'vendor/'"
+#          IGNORE="${IGNORE} -X 'kirby/'"
+#        fi
+#    else
+#        # no remote.composer.lock
+#        echo "No composer.lock could be found on remote host. Will upload vendor/ (and kirby/)."
+#    fi
+#fi
 
 echo "Final ignore list: ${IGNORE}"
 
@@ -136,7 +136,7 @@ echo " --- Start sync process ---"
 # debug   <- output everything
 # debug 3 <- output just errors
 
-lftp -u "$USER","$PASSWORD" $HOST <<EOF
+"$(SCRIPT_PATH)"/bin/lftp -u "$USER","$PASSWORD" $HOST <<EOF
 debug 3
 set ssl:check-hostname true
 set sftp:auto-confirm true
