@@ -35,12 +35,6 @@ runs:
     steps:
         -   run: echo "Start helllicht/ftp-sync"
             shell: bash
-        -   run: ${{ github.action_path }}/lib/bin/lftp -v
-            shell: bash
-        -   run: PATH=${{ github.action_path }}/lib/bin/lftp:$PATH
-            shell: bash
-        -   run: lftp -v
-            shell: bash
         -   run: |
                 chmod +x ${{ github.action_path }}/sync.sh
                 bash ${{ github.action_path }}/sync.sh \
