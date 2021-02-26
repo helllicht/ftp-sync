@@ -29,8 +29,8 @@ jobs:
             - name: make
               run: cd lftp-4.9.2 && make -j$(nproc)
 
-            - name: make
-              run: cd lftp-4.9.2 && make install
+            - name: make install
+              run: cd lftp-4.9.2 && sudo make install
 
             - name: output build dir
               run: cd lftp-4.9.2 && ls -la src | grep "lftp"
