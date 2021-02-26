@@ -40,5 +40,4 @@ jobs:
 
             - uses: actions/download-artifact@v2
               with:
-                  name: lftp
-                  path: lftp-4.9.2
+                  name: lftp-pckg
