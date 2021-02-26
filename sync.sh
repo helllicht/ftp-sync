@@ -63,7 +63,7 @@ echo "starting sync.sh script"
 
 echo
 echo "LFTP Info:"
-"$SCRIPT_PATH/bin/lftp -v"
+$SCRIPT_PATH/bin/lftp -v
 echo
 
 IGNORE=''
