@@ -15,7 +15,7 @@ jobs:
               uses: actions/checkout@v2
 
             - name: Install building dependencies
-              run: apt-get install openssl build-essential libreadline-dev libssl-dev ncurses-dev libgnutls28-dev pkg-config zlib1g-dev -y
+              run: apt-get update && install openssl build-essential libreadline-dev libssl-dev ncurses-dev libgnutls28-dev pkg-config zlib1g-dev -y
 
             - name: Download
               run: wget -O - http://lftp.yar.ru/ftp/lftp-4.9.2.tar.gz | tar xz
