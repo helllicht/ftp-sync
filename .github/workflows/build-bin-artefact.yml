@@ -1,0 +1,44 @@
+name: Build
+
+# trigger
+on:
+    push:
+        branches:
+            - debug
+
+jobs:
+    build:
+        name: Build
+        runs-on: ubuntu-20.04
+        steps:
+            - name: Checkout Repository
+              uses: actions/checkout@v2
+
+            - name: Install building dependencies
+              run: apt-get install openssl build-essential libreadline-dev libssl-dev ncurses-dev libgnutls28-dev pkg-config zlib1g-dev -y
+
+            - name: Download
+              run: wget -O - http://lftp.yar.ru/ftp/lftp-4.9.2.tar.gz | tar xz
+
+            - name: cd
+              run: cd lftp-4.9.2 && ls -la
+
+            - name: configure
+              run: ./configure --without-gnutls --with-openssl
+
+            - name: make
+              run: make -j$(nproc)
+
+            - name: make
+              run: make install
+
+            - name: output build dir
+              run: ls -la src | grep "lftp"
+
+            - name: output
+              run: lftp -v
+
+            - uses: actions/download-artifact@v2
+              with:
+                  name: lftp
+                  path: lftp-4.9.2
