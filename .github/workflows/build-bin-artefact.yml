@@ -38,6 +38,6 @@ jobs:
             - name: output
               run: cd lftp-4.9.2 && lftp -v
 
-            - uses: actions/download-artifact@v2
+            - uses: actions/upload-artifact@v2
               with:
-                  name: lftp-pckg
+                  name: lftp-4.9.2/src/lftp
