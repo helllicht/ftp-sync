@@ -1,0 +1,23 @@
+name: Build
+
+# trigger
+on:
+    push:
+        branches:
+            - debug
+
+jobs:
+    build:
+        name: Build
+        runs-on: ubuntu-20.04
+        steps:
+            - name: Checkout Repository
+              uses: actions/checkout@v2
+            - run: ls -la
+            - run: ls -la /usr
+            - run: ls -la /usr/local
+            - run: ls -la /usr/local/bin
+            - run: lftp -v
+            - run: cp lib/bin/lftp /usr/local/bin/lftp
+            - run: cp lib/bin/lftpget /usr/local/bin/lftpget
+            - run: lftp -v
