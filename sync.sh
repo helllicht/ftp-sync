@@ -52,6 +52,9 @@ function fail {
 
 echo "starting sync.sh script"
 
+sudo apt-get update
+sudo apt-get install -y libc6 libgnutls30 libidn2-0 libreadline8 libstdc++6 libtinfo6 zlib1g netbase openssh-client
+
 #if ! command -v lftp &> /dev/null
 #then
 #    # try to install
