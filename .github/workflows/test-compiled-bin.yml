@@ -17,7 +17,6 @@ jobs:
             - run: ls -la /usr
             - run: ls -la /usr/local
             - run: ls -la /usr/local/bin
-            - run: lftp -v
             - run: cp lib/bin/lftp /usr/local/bin/lftp
             - run: cp lib/bin/lftpget /usr/local/bin/lftpget
             - run: lftp -v
