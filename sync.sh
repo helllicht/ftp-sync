@@ -48,22 +48,22 @@ function fail {
 
 echo "starting sync.sh script"
 
-if ! command -v lftp &> /dev/null
-then
-    # try to install
-    echo "lftp not installed, try to install!"
-    sudo apt-get update
-    sudo apt-get install -y lftp
-
-    if ! command -v lftp &> /dev/null
-    then
-        fail "lftp could not be installed!"
-    fi
-fi
+#if ! command -v lftp &> /dev/null
+#then
+#    # try to install
+#    echo "lftp not installed, try to install!"
+#    sudo apt-get update
+#    sudo apt-get install -y lftp
+#
+#    if ! command -v lftp &> /dev/null
+#    then
+#        fail "lftp could not be installed!"
+#    fi
+#fi
 
 echo
 echo "LFTP Info:"
-lftp -v
+"$(pwd)"/bin/lftp -v
 echo
 
 IGNORE=''
