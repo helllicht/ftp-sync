@@ -63,7 +63,7 @@ echo "starting sync.sh script"
 
 echo
 echo "LFTP Info:"
-$SCRIPT_PATH/bin/lftp -v
+lftp -v
 echo
 
 IGNORE=''
@@ -136,7 +136,7 @@ echo " --- Start sync process ---"
 # debug   <- output everything
 # debug 3 <- output just errors
 
-"$(SCRIPT_PATH)"/bin/lftp -u "$USER","$PASSWORD" $HOST <<EOF
+lftp -u "$USER","$PASSWORD" $HOST <<EOF
 debug 3
 set ssl:check-hostname true
 set sftp:auto-confirm true
