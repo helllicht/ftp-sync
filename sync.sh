@@ -32,6 +32,10 @@ case $i in
     SSL="${i#*=}"
     shift
     ;;
+    -P=*|--parallel=*)
+    PARALLEL="${i#*=}"
+    shift
+    ;;
     *)
           # unknown option
     ;;
@@ -125,6 +129,8 @@ else
   FORCE_SSL="set ftp:ssl-force false;"
 fi
 
+echo "Parallel is set to: $PARALLEL"
+
 echo
 echo " --- Start sync process ---"
 
@@ -142,7 +148,7 @@ set net:timeout 15;
 set net:reconnect-interval-base 5;
 set net:max-retries 2;
 $FORCE_SSL
-mirror --reverse --parallel=2 --verbose --only-newer --delete $UPLOAD $REMOTE $IGNORE;
+mirror --reverse --parallel=$PARALLEL --verbose --only-newer --delete $UPLOAD $REMOTE $IGNORE;
 exit
 EOF
 
