@@ -142,7 +142,7 @@ set net:timeout 15;
 set net:reconnect-interval-base 5;
 set net:max-retries 2;
 $FORCE_SSL
-mirror --use-pget-n=8 --verbose --reverse --only-newer --delete $UPLOAD $REMOTE $IGNORE;
+mirror --reverse --parallel=2 --verbose --only-newer --delete $UPLOAD $REMOTE $IGNORE;
 exit
 EOF
 
