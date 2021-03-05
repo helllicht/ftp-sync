@@ -78,10 +78,16 @@ while read p; do
   fi
 done < "${SCRIPT_PATH}/.defaultignore"
 
-if [ -f ".syncignore" ]; then
-    # if exists, append all entries from .syncignore
-    echo ".syncignore exists."
+echo
+echo "INFO: lftp has a known issue with 0 byte files (empty files)"
+echo "automatically searching for 0 byte files in localDir and add them to .syncignore"
+echo
 
+#
+find $UPLOAD -type f -empty | sed 's/\.\///g' >> .syncignore
+
+if [ -f ".syncignore" ]; then
+    # loop through all entries in this file and append them in a giant string
     while read p; do
       if [ ${#p} -gt 0 ] && [ ${p:0:1} != "#" ] ;
       then
@@ -148,7 +154,7 @@ set net:timeout 15;
 set net:reconnect-interval-base 5;
 set net:max-retries 2;
 $FORCE_SSL
-mirror --reverse --parallel=$PARALLEL --verbose --only-newer --delete $UPLOAD $REMOTE $IGNORE;
+mirror --reverse --parallel=$PARALLEL --verbose --only-newer $UPLOAD $REMOTE $IGNORE;
 exit
 EOF
 
