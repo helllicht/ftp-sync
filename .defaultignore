@@ -12,6 +12,7 @@
 .gitmodules
 .idea/
 .jshintrc
+.nvmrc
 .prettierignore
 .syncignore
 .vscode/
