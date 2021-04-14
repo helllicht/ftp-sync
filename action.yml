@@ -20,7 +20,7 @@ inputs:
         description: 'Password'
         required: true
     passwordBase64:
-        description: 'Password is base64 encoded (default: "false") ["false", all other strings are true!]'
+        description: 'Password is base64 encoded (default: "false") ["true"/"false"]'
         required: false
         default: 'false'
     localDir:
@@ -32,7 +32,7 @@ inputs:
         required: false
         default: '.'
     forceSSL:
-        description: 'Just use SSL connection (default: "true") ["true", all other strings are false!]'
+        description: 'Just use SSL connection (default: "true") ["true"/"false"]'
         required: false
         default: 'true'
     parallel:
