@@ -19,12 +19,18 @@ inputs:
     password:
         description: 'Password'
         required: true
+    passwordBase64:
+        description: 'Password is base64 encoded (default: "false") ["false", all other strings are true!]'
+        required: false
+        default: 'false'
     localDir:
-        description: 'Directory that should be uploaded'
-        required: true
+        description: 'Directory that should be uploaded (default: ".")'
+        required: false
+        default: '.'
     uploadPath:
-        description: 'Path where the sync directory is'
-        required: true
+        description: 'Path where the sync directory is (default: ".")'
+        required: false
+        default: '.'
     forceSSL:
         description: 'Just use SSL connection (default: "true") ["true", all other strings are false!]'
         required: false
@@ -46,6 +52,7 @@ runs:
                     -h=${{ inputs.host }} \
                     -u=${{ inputs.username }} \
                     -p=${{ inputs.password }} \
+                    -p64=${{ inputs.passwordBase64 }} \
                     -l=${{ inputs.localDir }} \
                     -r=${{ inputs.uploadPath }} \
                     -S=${{ inputs.forceSSL }} \
