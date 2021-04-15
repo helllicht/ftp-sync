@@ -51,7 +51,7 @@ runs:
                     -s=${{ github.action_path }} \
                     -h=${{ inputs.host }} \
                     -u=${{ inputs.username }} \
-                    -p=${{ inputs.password }} \
+                    -p="${{ inputs.password }}" \
                     -p64=${{ inputs.passwordBase64 }} \
                     -l=${{ inputs.localDir }} \
                     -r=${{ inputs.uploadPath }} \

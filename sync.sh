@@ -143,7 +143,7 @@ echo "Parallel is set to: $PARALLEL"
 
 if [ "$BASE64" = "true" ]; then
   echo "Password is given as base64, internal decode."
-  PASSWORD=echo $PASSWORD | base64 -d
+  PASSWORD=echo "$PASSWORD" | base64 -d
 fi
 
 echo
