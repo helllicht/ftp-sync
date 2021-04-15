@@ -6,9 +6,9 @@ inputs:
         description: 'Host (e.g. "my-sftp-url.com")'
         required: true
     port:
-        description: 'Port [default: "21"]'
+        description: 'Port [default: ""] (if empty lftp will guess the port from used protocol - most times it is 21)'
         required: false
-        default: '21'
+        default: ''
     username:
         description: 'Username'
         required: true

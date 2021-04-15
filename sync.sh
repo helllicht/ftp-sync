@@ -141,6 +141,12 @@ fi
 
 echo "Parallel is set to: $PARALLEL"
 
+SPECIFIC_PORT=""
+if [ "$PORT" != "" ]; then
+  echo "specific port was given. Add -p $PORT"
+  SPECIFIC_PORT="-p $PORT "
+fi
+
 echo
 echo " --- Start sync process ---"
 
@@ -151,7 +157,7 @@ echo " --- Start sync process ---"
 # debug   <- output everything
 # debug 3 <- output just errors
 
-lftp -p "$PORT" -u "$USER","$PASSWORD" $HOST <<EOF
+lftp "$SPECIFIC_PORT" -u "$USER","$PASSWORD" "$HOST" <<EOF
 set sftp:auto-confirm yes;
 set ssl:verify-certificate no;
 set net:timeout 15;
