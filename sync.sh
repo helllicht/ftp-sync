@@ -12,6 +12,10 @@ case $i in
     HOST="${i#*=}"
     shift
     ;;
+    -po=*|--port=*)
+    PORT="${i#*=}"
+    shift
+    ;;
     -u=*|--user=*)
     USER="${i#*=}"
     shift
@@ -147,7 +151,7 @@ echo " --- Start sync process ---"
 # debug   <- output everything
 # debug 3 <- output just errors
 
-lftp -u "$USER","$PASSWORD" $HOST <<EOF
+lftp -p "$PORT" -u "$USER","$PASSWORD" $HOST <<EOF
 set sftp:auto-confirm yes;
 set ssl:verify-certificate no;
 set net:timeout 15;

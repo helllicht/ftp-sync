@@ -5,14 +5,10 @@ inputs:
     host:
         description: 'Host (e.g. "my-sftp-url.com")'
         required: true
-    #port:
-    #    description: 'Port [default: "22"]'
-    #    required: false
-    #    default: '22'
-    #forceVendor:
-    #    description: 'Always upload vendor (default: "false") ["false", all other strings are true!]'
-    #    required: false
-    #    default: 'false'
+    port:
+        description: 'Port [default: "21"]'
+        required: false
+        default: '21'
     username:
         description: 'Username'
         required: true
@@ -45,6 +41,7 @@ runs:
                 chmod +x ${{ github.action_path }}/sync.sh
                 bash ${{ github.action_path }}/sync.sh \
                     -s="${{ github.action_path }}" \
+                    -po="${{ inputs.port }}" \
                     -h="${{ inputs.host }}" \
                     -u="${{ inputs.username }}" \
                     -p="${{ inputs.password }}" \
