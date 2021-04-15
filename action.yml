@@ -19,10 +19,6 @@ inputs:
     password:
         description: 'Password'
         required: true
-    passwordBase64:
-        description: 'Password is base64 encoded (default: "false") ["true"/"false"]'
-        required: false
-        default: 'false'
     localDir:
         description: 'Directory that should be uploaded (default: ".")'
         required: false
@@ -48,13 +44,12 @@ runs:
         -   run: |
                 chmod +x ${{ github.action_path }}/sync.sh
                 bash ${{ github.action_path }}/sync.sh \
-                    -s=${{ github.action_path }} \
-                    -h=${{ inputs.host }} \
-                    -u=${{ inputs.username }} \
+                    -s="${{ github.action_path }}" \
+                    -h="${{ inputs.host }}" \
+                    -u="${{ inputs.username }}" \
                     -p="${{ inputs.password }}" \
-                    -p64=${{ inputs.passwordBase64 }} \
-                    -l=${{ inputs.localDir }} \
-                    -r=${{ inputs.uploadPath }} \
-                    -S=${{ inputs.forceSSL }} \
-                    -P=${{ inputs.parallel }} \
+                    -l="${{ inputs.localDir }}" \
+                    -r="${{ inputs.uploadPath }}" \
+                    -S="${{ inputs.forceSSL }}" \
+                    -P="${{ inputs.parallel }}" \
             shell: bash

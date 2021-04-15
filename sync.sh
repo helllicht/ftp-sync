@@ -20,10 +20,6 @@ case $i in
     PASSWORD="${i#*=}"
     shift
     ;;
-    -p64=*|--password-64=*)
-    BASE64="${i#*=}"
-    shift
-    ;;
     -l=*|--local=*)
     UPLOAD="${i#*=}"
     shift
@@ -140,11 +136,6 @@ else
 fi
 
 echo "Parallel is set to: $PARALLEL"
-
-if [ "$BASE64" = "true" ]; then
-  echo "Password is given as base64, internal decode."
-  PASSWORD=echo "$PASSWORD" | base64 -d
-fi
 
 echo
 echo " --- Start sync process ---"
