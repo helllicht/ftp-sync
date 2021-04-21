@@ -55,6 +55,16 @@ function fail {
 }
 
 echo "Started sync.sh"
+echo "Got following script parameters:"
+echo "Host: $HOST"
+echo "Port: $PORT"
+echo "User: ***"
+echo "Password: ***"
+echo "Upload: $UPLOAD"
+echo "Remote: $REMOTE"
+echo "SSL: $SSL"
+echo "Parallel: $PARALLEL"
+echo
 
 if ! command -v lftp &> /dev/null
 then
@@ -76,6 +86,7 @@ echo
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # Go through the plugin default ignore list and add them to IGNORE
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+echo "Load default ignore values from action"
 IGNORE=''
 while read p; do
   # append all entries from .defaultignore
@@ -99,6 +110,7 @@ find $UPLOAD -type f -empty | sed 's/\.\///g' | grep -v 'node_modules' >> .synci
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # If .syncignore exist build the IGNORE and ADD list together
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+echo "Search for .syncignore in project root"
 if [ -f ".syncignore" ]; then
 
     # Append to ignore
@@ -117,12 +129,12 @@ if [ -f ".syncignore" ]; then
       fi
     done < ".syncignore"
 
-    echo "ADD: $ADD"
 else
     echo "No .syncignore found."
 fi
 
-echo "Final ignore list: ${IGNORE}"
+echo "Force upload list: ${ADD}"
+echo "Complete ignore list: ${IGNORE}"
 
 # Optional feature for future...
 #if test -f "composer.lock"; then
@@ -163,7 +175,7 @@ fi
 
 SPECIFIC_PORT=""
 if [ "$PORT" != "" ]; then
-  echo "specific port was given. Add -p $PORT"
+  echo "specific port was given and is loaded. Add '-p $PORT'"
   SPECIFIC_PORT="-p $PORT"
 fi
 
