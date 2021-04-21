@@ -61,6 +61,16 @@ You can only write a comment or a file/folder, not both in one line!
 main.js # this not!
 ```
 
+### Extended example
+Nested logic for e.g. kirby CMS.
+`content/` wouldn't upload `assets/content/` so we will force it. LFTP does not support better syntax for this.
+```
+# exclude content dir
+content/ <-- ignore all content folders!
+!*/content/ <-- don't ignore content folders (if they have a prefix => not in root) 
+site/cache/
+```
+
 ## Active versions
 INFO: This action just have one active version -> master!
 + master

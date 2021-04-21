@@ -54,7 +54,7 @@ function fail {
     exit "${2-1}"
 }
 
-echo "starting sync.sh script"
+echo "Started sync.sh"
 
 if ! command -v lftp &> /dev/null
 then
@@ -69,10 +69,13 @@ then
 fi
 
 echo
-echo "LFTP Info:"
+echo "Installed lftp:"
 lftp -v
 echo
 
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+# Go through the plugin default ignore list and add them to IGNORE
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 IGNORE=''
 while read p; do
   # append all entries from .defaultignore
@@ -82,28 +85,46 @@ while read p; do
   fi
 done < "${SCRIPT_PATH}/.defaultignore"
 
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+# Add all empty/0byte files to the .syncignore
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 echo
 echo "INFO: lftp has a known issue with 0 byte files (empty files)"
 echo "automatically searching for 0 byte files in localDir and add them to .syncignore"
 echo
 
-#
-find $UPLOAD -type f -empty | sed 's/\.\///g' >> .syncignore
+# search for empty/0byte files (ignore the node_modules folder!)
+find "$UPLOAD" -type f -empty | sed 's/\.\///g' | grep -v 'node_modules' >> .syncignore
 
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+# If .syncignore exist build the IGNORE and ADD list together
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 if [ -f ".syncignore" ]; then
-    # loop through all entries in this file and append them in a giant string
+
+    # Append to ignore
     while read p; do
-      if [ ${#p} -gt 0 ] && [ ${p:0:1} != "#" ] ;
+      if [ ${#p} -gt 0 ] && [ ${p:0:1} != "#" ] && [ ${p:0:1} != "!" ];
       then
         IGNORE="${IGNORE} -X '${p}'"
       fi
     done < ".syncignore"
 
-    echo "Added additional ignores from .syncignore!"
+    # Append to force add
+    while read p; do
+      if [ ${#p} -gt 0 ] && [ ${p:0:1} = "!" ] && [ ${p:0:1} != "#" ] ;
+      then
+        ADD="${ADD} -I '${p:1:999}'"
+      fi
+    done < ".syncignore"
+
+    echo "ADD: $ADD"
 else
     echo "No .syncignore found."
 fi
 
+echo "Final ignore list: ${IGNORE}"
+
+# Optional feature for future...
 #if test -f "composer.lock"; then
 #    # This project contains a composer.lock file
 #    echo "This is a php project with composer.lock!"
@@ -127,9 +148,10 @@ fi
 #    fi
 #fi
 
-echo "Final ignore list: ${IGNORE}"
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+# Echo optional options that where set / other information
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
-# additional settings
 FORCE_SSL=""
 if [ "$SSL" = "true" ]; then
   echo "ssl-force enabled!"
@@ -139,16 +161,20 @@ else
   FORCE_SSL="set ftp:ssl-force false;"
 fi
 
-echo "Parallel is set to: $PARALLEL"
-
 SPECIFIC_PORT=""
 if [ "$PORT" != "" ]; then
   echo "specific port was given. Add -p $PORT"
-  SPECIFIC_PORT="-p $PORT "
+  SPECIFIC_PORT="-p $PORT"
 fi
 
+echo "Parallel is set to: $PARALLEL"
+
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+# Start the "real" upload process
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 echo
 echo " --- Start sync process ---"
+echo
 
 # lftp manual: http://lftp.yar.ru/lftp-man.html
 # if we got ssl issues probably set 'set ssl:verify-certificate no'
@@ -168,6 +194,7 @@ mirror --reverse --parallel=$PARALLEL --verbose --only-newer $UPLOAD $REMOTE $IG
 exit
 EOF
 
+echo
 echo " --- Finished sync process ---"
 echo
 
