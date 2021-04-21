@@ -94,7 +94,7 @@ echo "automatically searching for 0 byte files in localDir and add them to .sync
 echo
 
 # search for empty/0byte files (ignore the node_modules folder!)
-find "$UPLOAD" -type f -empty | sed 's/\.\///g' | grep -v 'node_modules' >> .syncignore
+find $UPLOAD -type f -empty | sed 's/\.\///g' | grep -v 'node_modules' >> .syncignore
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # If .syncignore exist build the IGNORE and ADD list together
