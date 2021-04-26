@@ -203,7 +203,7 @@ set net:timeout 15;
 set net:reconnect-interval-base 5;
 set net:max-retries 2;
 $FORCE_SSL
-mirror --reverse --no-symlinks --parallel=$PARALLEL --verbose --only-newer $UPLOAD $REMOTE $IGNORE;
+mirror --reverse --no-symlinks --parallel=$PARALLEL --verbose --only-newer $UPLOAD $REMOTE $IGNORE $ADD;
 exit
 EOF
 
