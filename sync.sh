@@ -195,7 +195,6 @@ echo
 # INFO for debug,
 # debug   <- output everything
 # debug 3 <- output just errors
-debug 3
 
 lftp "$SPECIFIC_PORT" -u "$USER","$PASSWORD" "$HOST" <<EOF
 set sftp:auto-confirm yes;
