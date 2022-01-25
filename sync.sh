@@ -70,7 +70,7 @@ if ! command -v lftp &> /dev/null
 then
     # try to install
     echo "lftp not installed, try to install!"
-    sudo apt-get install -y lftp
+    sudo apt-get install -y lftp=4.8.1-1ubuntu0.1 --allow-downgrades
 
     if ! command -v lftp &> /dev/null
     then
