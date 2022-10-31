@@ -2,9 +2,6 @@
 .DS_Store
 .deploybotignore
 .editorconfig
-.eslintignore
-.eslintrc
-.eslintrc.*
 .git/
 .gitattributes
 .github/
@@ -14,7 +11,15 @@
 .idea/
 .jshintrc
 .nvmrc
+.eslintignore
+.eslintrc
+.eslintrc.*
+.stylelintignore
+.stylelintrc
+.stylelintrc.*
 .prettierignore
+.prettierrc
+.prettierrc.*
 .syncignore
 .vscode/
 .well-known/
