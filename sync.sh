@@ -201,7 +201,7 @@ set sftp:auto-confirm yes;
 set ssl:verify-certificate no;
 set net:timeout 15;
 set net:reconnect-interval-base 5;
-set net:max-retries 2;
+set net:max-retries 5;
 $FORCE_SSL
 mirror --reverse --no-symlinks --parallel=$PARALLEL --verbose --only-newer $UPLOAD $REMOTE $IGNORE $ADD;
 exit
